@@ -9,7 +9,7 @@ import { ITXClientDenyList } from '@prisma/client/runtime/library';
 type PrismaTransaction = Omit<PrismaClient, ITXClientDenyList>
 
 @Injectable()
-export class EventService {
+export class EventsService {
   constructor(private prismaService: PrismaService){}
 
   create(createEventDto: CreateEventDto) {
