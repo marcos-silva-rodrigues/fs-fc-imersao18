@@ -1,2 +1,2 @@
-CREATE TABLE partner1;
-CREATE TABLE partner2;
+CREATE DATABASE partner1;
+CREATE DATABASE partner2;
