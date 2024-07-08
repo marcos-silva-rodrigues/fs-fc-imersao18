@@ -1,0 +1,2 @@
+CREATE TABLE partner1;
+CREATE TABLE partner2;

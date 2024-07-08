@@ -9,7 +9,8 @@ services:
   db:
     image: mysql:8.0.30-debian
     environment:
-      MYSQL_DATABASE: nestjs
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
+    volumes:
+      - ./.docker/mysql:/docker-entrypoint-initdb.d
