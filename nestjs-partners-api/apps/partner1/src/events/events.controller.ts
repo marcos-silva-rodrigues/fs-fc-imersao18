@@ -1,12 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseGuards } from '@nestjs/common';
 import { EventsService } from '@app/core/events/events-core.service';
 import { CreateEventRequest } from './request/create-event.request';
 import { UpdateEventRequest } from './request/update-event.request';
 import { ReserveSpotRequest } from './request/reserve-spot.request';
+import { AuthGuard } from '@app/core/auth/auth.guard';
 
 @Controller('event')
 export class EventsController {
-  constructor(private readonly eventService: EventService) {}
+  constructor(private readonly eventService: EventsService) {}
 
   @Post()
   create(@Body() request: CreateEventRequest) {
@@ -34,6 +35,7 @@ export class EventsController {
     return this.eventService.remove(id);
   }
 
+  @UseGuards(AuthGuard)
   @Post(':id/reverse')
   reserveSpot(@Param('id') eventId: string, @Body() request: ReserveSpotRequest) {
     return this.eventService.reserveSpot(eventId, request)
