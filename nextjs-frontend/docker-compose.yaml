@@ -4,7 +4,8 @@ services:
     build: .
     ports:
       - 3002:3000
-    volumes:
-      - .:/home/node/app
+    environment:
+      - GOLANG_API_URL=http://host.docker.internal:8000/golang
+      - GOLANG_API_TOKEN=fM7v7vyGvAIkFYYSeWS20H60OzRDygHE
     extra_hosts:
       - "host.docker.internal:host-gateway"

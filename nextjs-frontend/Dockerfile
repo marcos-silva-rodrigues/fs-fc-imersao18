@@ -1,7 +1,14 @@
-FROM node:21-slim
+FROM node:21-slim as builder
 
 WORKDIR /home/node/app
 
-USER node
+COPY package*.json ./
 
-CMD tail -f /dev/null
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+CMD npm run start

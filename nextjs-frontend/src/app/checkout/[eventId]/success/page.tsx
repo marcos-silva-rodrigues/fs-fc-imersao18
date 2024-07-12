@@ -1,14 +1,15 @@
+import { Title } from "@/components/Title";
+import { EventModel } from "@/models";
 import { cookies } from "next/headers";
-import { Title } from "../../../../components/Title";
-import { EventModel } from "../../../../models";
-// queries
-export async function getEvent(eventId: string): Promise<EventModel> {
+
+async function getData(eventId: string): Promise<EventModel> {
   const response = await fetch(`${process.env.GOLANG_API_URL}/events/${eventId}`, {
     headers: {
       "apikey": process.env.GOLANG_API_TOKEN as string
     },
     cache: "no-store",
     next: {
+      
       tags: [`events/${eventId}`],
     }
   });
@@ -21,7 +22,7 @@ export default async function CheckoutSuccessPage({
 }: {
   params: { eventId: string };
 }) {
-  const event = await getEvent(params.eventId);
+  const event = await getData(params.eventId);
   const cookiesStore = cookies();
   const selectedSpots = JSON.parse(cookiesStore.get("spots")?.value || "[]");
   return (
