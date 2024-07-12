@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseGuards } from '@nestjs/common';
 import { EventsService } from '@app/core/events/events-core.service';
 import { CriarEventoRequest } from './request/criar-evento.request';
 import { AtualizarEventoRequest } from './request/atualizar-evento.request';
 import { ReservarLugarRequest } from './request/reserva-lugar.request';
+import { TicketKind } from '@prisma/client';
+import { ReservarLugarResponse } from './response/reservar-lugar.response';
+import { AuthGuard } from '@app/core/auth/auth.guard';
 
 @Controller('eventos')
 export class EventosController {
@@ -44,12 +47,22 @@ export class EventosController {
     return this.eventService.remove(id);
   }
 
+  @UseGuards(AuthGuard)
   @Post(':id/reservar')
-  reserveSpot(@Param('id') id: string, @Body() request: ReservarLugarRequest) {
-    return this.eventService.reserveSpot(id, {
-      email: request.email,
-      spots: request.lugares,
-      ticket_kind: request.tipo_ingresso
-    })
+  async reserveSpots(
+    @Body() reservarLugarRequest: ReservarLugarRequest,
+    @Param('id') eventId: string,
+  ) {
+    console.log(reservarLugarRequest);
+    const tickets = await this.eventService.reserveSpot({
+      eventId,
+      spots: reservarLugarRequest.lugares,
+      ticket_kind:
+        reservarLugarRequest.tipo_ingresso === 'inteira'
+          ? TicketKind.full
+          : TicketKind.half,
+      email: reservarLugarRequest.email,
+    });
+    return new ReservarLugarResponse(tickets);
   }
 }

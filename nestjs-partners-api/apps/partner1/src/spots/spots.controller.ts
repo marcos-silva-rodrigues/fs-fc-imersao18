@@ -9,7 +9,11 @@ export class SpotsController {
 
   @Post()
   create(@Param('eventId') eventId: string, @Body() request: CreateSpotRequest) {
-    return this.spotsService.create(eventId, request);
+    return this.spotsService.create({
+      ...request,
+      eventId: eventId
+
+    });
   }
 
   @Get()

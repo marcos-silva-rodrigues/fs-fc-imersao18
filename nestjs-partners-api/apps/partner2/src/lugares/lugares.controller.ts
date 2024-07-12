@@ -9,8 +9,9 @@ export class LugaresController {
 
   @Post()
   create(@Param('eventoId') eventoId: string, @Body() request: CriarLugarRequest) {
-    return this.spotsService.create(eventoId, {
-      name: request.nome
+    return this.spotsService.create({
+      name: request.nome,
+      eventId: eventoId
     });
   }
 

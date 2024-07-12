@@ -1,11 +1,38 @@
-FROM node:21-slim
-
-RUN apt update && apt install -y openssl procps
-
-RUN npm install -g @nestjs/cli@10.3.2
+FROM node:21-slim as builder
 
 WORKDIR /home/node/app
 
-USER node
+RUN apt update && apt install -y openssl
 
-CMD tail -f /dev/null
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY nest-cli.json ./
+
+RUN npm install
+
+COPY ./apps ./apps 
+COPY ./libs ./libs
+COPY ./prisma ./prisma
+
+ARG DATABASE_URL
+ARG PARTNER
+
+RUN touch .env.${PARTNER}
+RUN echo DATABASE_URL=${DATABASE_URL} > .env.${PARTNER}
+RUN npm run migrate:${PARTNER}
+
+RUN npm run start ${PARTNER}-fixture
+
+RUN npm run build ${PARTNER}
+
+FROM node:21-slim as prod
+
+RUN apt update && apt install -y openssl
+
+WORKDIR /home/node/app
+
+COPY --from=builder /home/node/app/package*.json ./
+COPY --from=builder /home/node/app/dist dist
+COPY --from=builder /home/node/app/node_modules node_modules
+
+EXPOSE 3000

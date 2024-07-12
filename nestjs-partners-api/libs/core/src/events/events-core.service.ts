@@ -47,84 +47,75 @@ export class EventsService {
     })
   }
 
-  async reserveSpot(eventId: string, dto: ReserveSpotDto) {
+  async reserveSpot(dto: ReserveSpotDto & { eventId: string }) {
     const spots = await this.prismaService.spot.findMany({
       where: {
-        eventId,
+        eventId: dto.eventId,
         name: {
-          in: dto.spots
-        }
-      }
-    })
-
+          in: dto.spots,
+        },
+      },
+    });
     if (spots.length !== dto.spots.length) {
-      const foundSpotsName = spots.map(spot => spot.name)
+      const foundSpotsName = spots.map((spot) => spot.name);
       const notFoundSpotsName = dto.spots.filter(
-        spotName => !foundSpotsName.includes(spotName)
-      )
-
-      throw new Error(`Spots ${notFoundSpotsName.join(', ')} not found`)
+        (spotName) => !foundSpotsName.includes(spotName),
+      );
+      throw new Error(`Spots ${notFoundSpotsName.join(', ')} not found`);
     }
 
-    const sportIds = spots.map(spot => spot.id);
-
     try {
-      const tickets = await this.prismaService.$transaction(async prisma => {
-        await this.createReservationHistory(prisma, sportIds, dto);
-        await this.updateSpotToReversed(prisma, sportIds)
-        return await this.createTickets(prisma, sportIds, dto);
-      }, {
-        isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted
-      })
+      const tickets = await this.prismaService.$transaction(
+        async (prisma) => {
+          await prisma.reservationHistory.createMany({
+            data: spots.map((spot) => ({
+              spotId: spot.id,
+              ticketKind: dto.ticket_kind,
+              email: dto.email,
+              status: TicketStatus.reserved,
+            })),
+          });
 
-      return tickets
+          await prisma.spot.updateMany({
+            where: {
+              id: {
+                in: spots.map((spot) => spot.id),
+              },
+            },
+            data: {
+              status: SpotStatus.reserved,
+            },
+          });
+
+          const tickets = await Promise.all(
+            spots.map((spot) =>
+              prisma.ticket.create({
+                data: {
+                  spotId: spot.id,
+                  ticketKind: dto.ticket_kind,
+                  email: dto.email,
+                },
+                include: {
+                  Spot: true,
+                },
+              }),
+            ),
+          );
+
+          return tickets;
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted },
+      );
+      return tickets;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        switch(e.code) {
-          case 'P2002':
-          case 'P2034':
-            throw new Error('Some spots are already reserved!')
+        switch (e.code) {
+          case 'P2002': // unique constraint violation
+          case 'P2034': // transaction conflict
+            throw new Error('Some spots are already reserved');
         }
       }
       throw e;
     }
-  }
-
-  private async createReservationHistory(prisma: PrismaTransaction, sportIds: string[], dto: ReserveSpotDto) {
-    await prisma.reservationHistory.createMany({
-      data: sportIds.map(spotId => ({
-        spotId: spotId,
-        ticketKind: dto.ticket_kind,
-        email: dto.email,
-        status: TicketStatus.reserved,
-      }))
-    })
-  }
-
-  private async updateSpotToReversed(prisma: PrismaTransaction, sportIds: string[]) {
-    await this.prismaService.spot.updateMany({
-      where: {
-        id: {
-          in: sportIds
-        }
-      },
-      data: {
-        status: SpotStatus.reserved
-      }
-    })
-  }
-
-  private async createTickets(prisma: PrismaTransaction, sportIds: string[], dto: ReserveSpotDto) {
-    return await Promise.all(
-      sportIds.map(spotId => {
-        prisma.ticket.create({
-          data: {
-            spotId: spotId,
-            ticketKind: dto.ticket_kind,
-            email: dto.email
-          }
-        })
-      })
-    )    
   }
 }

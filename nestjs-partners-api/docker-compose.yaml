@@ -1,16 +1,47 @@
 services:
-  nestjs:
-    build: .
+  partner1-api:
+    build:
+      args:
+        - DATABASE_URL=mysql://root:root@host.docker.internal:3306/partner1
+        - PARTNER=partner1
+      context: .
+    command: npm run start:prod:partner1
     ports:
       - 3000:3000
+    environment:
+      - DATABASE_URL=mysql://root:root@partner-mysql:3306/partner1
+      - API_TOKEN=123
+    depends_on:
+      - partner-mysql
+    
+  partner2-api:
+    build:
+      args:
+        - DATABASE_URL=mysql://root:root@host.docker.internal:3306/partner2
+        - PARTNER=partner2
+      context: .
+    command: npm run start:prod:partner2
+    ports:
       - 3001:3001
-    volumes:
-      - .:/home/node/app
-  db:
+    environment:
+      - DATABASE_URL=mysql://root:root@partner-mysql:3306/partner2
+      - API_TOKEN=321
+    depends_on:
+      - partner-mysql
+
+  partner-mysql:
     image: mysql:8.0.30-debian
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_ROOT_PASSWORD=root
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - ./.docker/mysql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  partner:

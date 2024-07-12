@@ -8,10 +8,10 @@ import { SpotStatus } from '@prisma/client';
 export class SpotsService {
   constructor(private prismaService: PrismaService) {}
 
-  async create(eventId: string, createSpotDto: CreateSpotDto) {
+  async create(createSpotDto: CreateSpotDto & { eventId: string }) {
     const event = await this.prismaService.event.findFirst({
       where: {
-        id: eventId
+        id: createSpotDto.eventId
       }
     });
 
@@ -23,7 +23,6 @@ export class SpotsService {
       data: {
         ...createSpotDto,
         status: SpotStatus.reserved,
-        eventId
       }
     });
   }
