@@ -22,7 +22,7 @@ export class SpotsService {
     return this.prismaService.spot.create({
       data: {
         ...createSpotDto,
-        status: SpotStatus.reserved,
+        status: SpotStatus.available,
       }
     });
   }
