@@ -1,0 +1,679 @@
+{
+	"info": {
+		"_postman_id": "f17058b9-63de-4dbe-baf4-70f5023be646",
+		"name": "fs-fc-imersão18",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12637731"
+	},
+	"item": [
+		{
+			"name": "Golang - Api",
+			"item": [
+				{
+					"name": "Events Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{golang}}/events",
+							"host": [
+								"{{golang}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Events Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{golang}}/events/a2ddd115-d240-4e09-b7f6-349364f2983f",
+							"host": [
+								"{{golang}}"
+							],
+							"path": [
+								"events",
+								"a2ddd115-d240-4e09-b7f6-349364f2983f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Spots By EventId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{golang}}/events/e0352b32-7698-4805-b029-28302b3a911f/spots",
+							"host": [
+								"{{golang}}"
+							],
+							"path": [
+								"events",
+								"e0352b32-7698-4805-b029-28302b3a911f",
+								"spots"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"jconf\",\r\n    \"location\": \"São paulo, SP\",\r\n    \"organization\": \"Partner 1\",\r\n    \"rating\": \"L0\",\r\n    \"date\": \"2024-08-03T00:00:00Z\",\r\n    \"capacity\": 40,\r\n    \"imageURL\": \"https://media.licdn.com/dms/image/D4D1EAQGj2CfB6Db3Uw/event-background-image-crop_720_1280/0/1720138643862?e=1721484000&v=beta&t=dDQwW8kUCaIy_zf6Z3OpvHY9mfFcg2YyN4_UyFoqRVo\",\r\n    \"price\": 100,\r\n    \"partner_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{golang}}/events",
+							"host": [
+								"{{golang}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Spot to EventId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"number_of_spots\": 40\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{golang}}/events/a2ddd115-d240-4e09-b7f6-349364f2983f/spots",
+							"host": [
+								"{{golang}}"
+							],
+							"path": [
+								"events",
+								"a2ddd115-d240-4e09-b7f6-349364f2983f",
+								"spots"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event_id\": \"e0352b32-7698-4805-b029-28302b3a911f\",\r\n    \"spots\": [\"A1\", \"A2\"],\r\n    \"ticket_kind\": \"full\",\r\n    \"card_hash\": \"msd123\",\r\n    \"email\": \"fulano@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{golang}}/checkout",
+							"host": [
+								"{{golang}}"
+							],
+							"path": [
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Nestjs - Partner1Api",
+			"item": [
+				{
+					"name": "Events",
+					"item": [
+						{
+							"name": "Get All Event",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner1}}/events",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Event By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"JCONF BR\",\r\n    \"description\": \"JCONF BR\",\r\n    \"date\": \"2024-08-03T14:00:00Z\",\r\n    \"price\": 100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner1}}/events",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Event",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"JCONF 2024 BR\",\r\n    \"description\": \"JCONF 2024 BR\",\r\n    \"date\": \"2024-08-03T14:00:00Z\",\r\n    \"price\": 50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Event",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reserve Spots",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"spots\": [\"A1\", \"A2\"],\r\n    \"ticket_kind\": \"half\",\r\n    \"email\": \"fulano@email.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a/reserve",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+										"reserve"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Spots",
+					"item": [
+						{
+							"name": "Get All Spot by EventId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/10853e59-dc5b-4d7b-a028-01513ef50d76/spots",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"spots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Spots By SpotId and EventId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/10853e59-dc5b-4d7b-a028-01513ef50d76/spots/0e556cdf-907d-4d07-a2c0-e4650e450464",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"spots",
+										"0e556cdf-907d-4d07-a2c0-e4650e450464"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Spot",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"A10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/10853e59-dc5b-4d7b-a028-01513ef50d76/spots",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"spots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Spot",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"A11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/10853e59-dc5b-4d7b-a028-01513ef50d76/spots/955b8278-1e31-499b-90a6-103776c3bc54",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"spots",
+										"955b8278-1e31-499b-90a6-103776c3bc54"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Spot",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner1}}/events/10853e59-dc5b-4d7b-a028-01513ef50d76/spots/0e556cdf-907d-4d07-a2c0-e4650e450464",
+									"host": [
+										"{{nestjs-partner1}}"
+									],
+									"path": [
+										"events",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"spots",
+										"0e556cdf-907d-4d07-a2c0-e4650e450464"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Nestjs - Partner2Api",
+			"item": [
+				{
+					"name": "Eventos",
+					"item": [
+						{
+							"name": "Pega todos Eventos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pega evento por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cria Evento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"JCONF BR\",\r\n    \"descricao\": \"JCONF BR\",\r\n    \"data\": \"2024-08-03T14:00:00Z\",\r\n    \"preco\": 100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualiza Evento",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"JCONF 2024 BR\",\r\n    \"descricao\": \"JCONF 2024 BR\",\r\n    \"data\": \"2024-08-03T14:00:00Z\",\r\n    \"preco\": 50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleta Evento",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reserva Lugares",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lugares\": [\"A1\", \"A2\"],\r\n    \"tipo_ingresso\": \"inteira\",\r\n    \"email\": \"fulano@email.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/a4faa646-b6d2-4c16-9dcd-f5c7618ae22a/reservar",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"a4faa646-b6d2-4c16-9dcd-f5c7618ae22a",
+										"reservar"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lugares",
+					"item": [
+						{
+							"name": "Pega todos os lugares por EventoId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/10853e59-dc5b-4d7b-a028-01513ef50d76/lugares",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"lugares"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pega Lugar pelo EventoId e LugarId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/10853e59-dc5b-4d7b-a028-01513ef50d76/lugares/0e556cdf-907d-4d07-a2c0-e4650e450464",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"lugares",
+										"0e556cdf-907d-4d07-a2c0-e4650e450464"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cria Lugar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"A10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/10853e59-dc5b-4d7b-a028-01513ef50d76/lugares",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"lugares"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualiza Lugar",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"A11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/10853e59-dc5b-4d7b-a028-01513ef50d76/lugares/955b8278-1e31-499b-90a6-103776c3bc54",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"lugares",
+										"955b8278-1e31-499b-90a6-103776c3bc54"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleta Lugar",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{nestjs-partner2}}/eventos/10853e59-dc5b-4d7b-a028-01513ef50d76/lugares/0e556cdf-907d-4d07-a2c0-e4650e450464",
+									"host": [
+										"{{nestjs-partner2}}"
+									],
+									"path": [
+										"eventos",
+										"10853e59-dc5b-4d7b-a028-01513ef50d76",
+										"lugares",
+										"0e556cdf-907d-4d07-a2c0-e4650e450464"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
